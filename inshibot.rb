@@ -25,9 +25,30 @@ class InshiBot
   jze        FA3         jdo
 
 ").join)
+#死
+  ######################
+     ##        ##
+    ##         ##       #
+   #########   ##     ##
+  ###     ##   ##   ##  
+ #  ##   ##    ## ##   
+     ## ##     ###  
+       ##      ##
+       ##      ##  
+      ##       ###      ##
+    ##          #########
+
+
+
+
+
+
 
   #ここは気にしなくてよい。USER_AGENTを与えておかないと公式に怒られます。
-  BOT_USER_AGENT = "inshibot"
+  eval(%w(BOT_USER_AGENT
+      ="        in 
+     shibot"    
+    ).join)
   #証明書のパスを指定します。これも同じ階層にアップロードすること。
   HTTPS_CA_FILE_PATH = "./twitter.cer"
   # データ保存先ファイル名 -- sqlite3で保存
