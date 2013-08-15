@@ -30,12 +30,12 @@ class InshiBot
        ="        in 
       shibot"    ).
     join   )     #yo   ss    
-   eval   (%w    (HT   TP
-   S  _C  A_     FI   LE
-  _P    ATH      ="./
+   eval( %w(     HT   TP
+   S   _ CA_     FI   LE
+ _P     ATH      ="./
        twi       tt
      er.         ce
-   r"            ).join)#ha
+   r"            ).join) #ha
 
 
 
