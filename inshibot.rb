@@ -27,9 +27,9 @@ class InshiBot
 ").join)
 
    eval(%w(BOT_USER_AGENT
-       ="        in 
+       ="        in
       shibot"    ).
-    join   )     #yo   ss    
+    join   )     #yo   ss
    eval( %w(     HT   TP
    S   _ CA_     FI   LE
  _P     ATH      ="./
@@ -42,13 +42,14 @@ class InshiBot
   # データ保存先ファイル名 -- sqlite3で保存
   DBFILENAME = "inshibot.sqlite3"
 
-  @@deadline = Time.local( 2013, 8, 19, 10, 0, 0 )
+  @@deadline = Time.local( 2013, 8, 20, 9, 0, 0 )
 
   def initialize
     @auth = TWAuth.new( CONSUMER_KEY, CONSUMER_SECRET, DBFILENAME )
     @dbfile = DBFILENAME
   end
 
+  @@first = true
   def run
     puts "Press Any Key for EXIT"
     t_key  = Thread.new {
@@ -57,17 +58,31 @@ class InshiBot
       system("stty -raw echo") #=> Reset terminal mode
     }
     t_twit = Thread.new {
-      counter = 0
       loop do
         begin
-          post "院死まで あと #{((@@deadline - Time.now)/(60*60)).to_i} 時間! #inshibot" if counter%3600 == 0
-          print "\r院死まで あと #{(day=(@@deadline - Time.now).divmod(60*60))[0].to_i} 時間 #{(min=day[1].divmod(60))[0].to_i} 分 #{min[1].to_i}秒! #inshibot"
-          STDOUT.flush
+          if (diff = (@@deadline - Time.now)) > 0
+            day = diff.divmod(60*60)
+            min = day[1].divmod(60)
+            post "院死(情報理工・専門)まで あと #{"%3d"%day[0].to_i} 時間! #inshibot" if day[1].to_i == 0 || @@first
+            @@first = false
+            print "\r院死(情報理工・専門)まで あと #{"%3d"%day[0].to_i} 時間 #{"%2d"%min[0].to_i} 分 #{"%2d"%min[1].to_i}秒! #inshibot"
+            STDOUT.flush
+          elsif diff == 0
+            post "院死開始！！！！！ #inshibot"
+            puts "院死開始！！！！！ #inshibot"
+          else
+            diff = -diff
+            day=diff.divmod(60*60)
+            min=day[1].divmod(60)
+            post "院試(情報理工・専門)開始から #{"%2d"%day[0].to_i} 時間経過！ #inshibot" if day[1].to_i == 0 || @@first
+            @@first = false
+            print "\r院死(情報理工・専門)開始から #{"%3d"%day[0].to_i} 時間 #{"%2d"%min[0].to_i} 分 #{"%2d"%min[1].to_i}秒 経過! #inshibot"
+            STDOUT.flush
+          end
         rescue
           puts "#{$!}"
         end
         sleep 1
-        counter += 1
       end
     }
     t_key.join
